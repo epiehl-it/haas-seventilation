@@ -1,0 +1,10 @@
+{
+  "domain": "sec_smart",
+  "name": "SEC Smart Ventilation",
+  "version": "0.1.0",
+  "documentation": "https://github.com/epiehl/sev_smart_api#readme",
+  "requirements": [],
+  "codeowners": ["@epiehl"],
+  "integration_type": "hub",
+  "iot_class": "cloud_polling"
+}

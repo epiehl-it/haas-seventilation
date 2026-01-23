@@ -1,0 +1,41 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+venv/
+.venv/
+.env
+.env.*
+pip-wheel-metadata/
+.cache/
+.python-version
+
+# Test & coverage
+.pytest_cache/
+.coverage*
+coverage.xml
+htmlcov/
+.mypy_cache/
+.dmypy.json
+.pyre/
+ruff_cache/
+
+# IDE/editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Home Assistant runtime artifacts
+.storage/
+deps/
+
+# Logs
+*.log

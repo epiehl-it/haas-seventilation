@@ -1,0 +1,6 @@
+{
+  "name": "SEC Smart Ventilation",
+  "content_in_root": false,
+  "domains": ["sec_smart"],
+  "render_readme": true
+}

@@ -1,0 +1,2444 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SEC Smart API",
+    "description": "This is the API for the <b>SEC Smart System</b>.<br><font color=\"#ff0000\"><b>ACHTUNG:</b> Diese API ist noch nicht für den produktiven Einsatz freigegeben!</font>",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.sec-smart.app/v1",
+      "description": "Main (production) server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Devices",
+      "description": "All endpoints related to devices"
+    },
+    {
+      "name": "Users",
+      "description": "All endpoints related to a device's users"
+    },
+    {
+      "name": "Areas",
+      "description": "All endpoints related to a device's areas to be operated"
+    },
+    {
+      "name": "Telemetry",
+      "description": "All endpoints related to a device's Telemetry data"
+    },
+    {
+      "name": "Notifications",
+      "description": "All endpoints related to a device's notifications"
+    },
+    {
+      "name": "Controller",
+      "description": "All endpoints related to a device's controller information"
+    },
+    {
+      "name": "Gateway",
+      "description": "All endpoints related to a device's gateway information"
+    },
+    {
+      "name": "Settings",
+      "description": "All endpoints related to a device's settings"
+    },
+    {
+      "name": "Setup",
+      "description": "All endpoints related to a device's setup"
+    }
+  ],
+  "security": [
+    {
+      "myTokenScheme": []
+    }
+  ],
+  "paths": {
+    "/devices": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Returns an object array of all your registered devices.",
+        "description": "Returns an array filled with shortened device objects consisting of type, id and name of SEC Smart systems you are associated with.",
+        "responses": {
+          "200": {
+            "description": "An array consisting of shortened device objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "type": "device",
+                      "id": "1A2B3C",
+                      "name": "Family"
+                    },
+                    {
+                      "type": "device",
+                      "id": "2B3C4D",
+                      "name": "Penthouse"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Returns a device object",
+        "description": "Returns a device object with the URL-encoded device ID if you are associated with this particular device.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A device object representing a SEC Smart system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/name": {
+      "put": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Sets a free choseable name for your device",
+        "description": "Set a free choseable name for your device.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "$ref": "#/components/schemas/Device/properties/name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/DeviceErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/areas": {
+      "get": {
+        "tags": [
+          "Areas"
+        ],
+        "summary": "Returns a device' areas object collection",
+        "description": "Returns the device subobject areas for the URL-encoded device ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A areas object representing the areas to operate on of a SEC Smart system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Areas"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/areas/mode": {
+      "put": {
+        "tags": [
+          "Areas"
+        ],
+        "summary": "Set a ventilation mode for a given area",
+        "description": "Sets the ventilation mode for the given area.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "areaid": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 6,
+                    "description": "Area to apply the ventilation mode to"
+                  },
+                  "mode": {
+                    "$ref": "#/components/schemas/Area/properties/mode"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/AreasErrors/properties/ModeErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/areas/label": {
+      "put": {
+        "tags": [
+          "Areas"
+        ],
+        "summary": "Updates the name for the given area",
+        "description": "Updates the name for the given area.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "areaid": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 6,
+                    "description": "Area to apply the label to"
+                  },
+                  "label": {
+                    "$ref": "#/components/schemas/Area/properties/label"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/AreasErrors/properties/LabelErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/areas/timeprogram": {
+      "put": {
+        "tags": [
+          "Areas"
+        ],
+        "summary": "Set a timed program for a given area",
+        "description": "Sets a timed program for the given area.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "areaid": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 6,
+                    "description": "Area to apply the timers to"
+                  },
+                  "timers": {
+                    "$ref": "#/components/schemas/Area/properties/timers"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/AreasErrors/properties/TimerErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Returns an array containing the email adresses of all users of this device",
+        "description": "Returns an array containing the email adresses of all users of this device.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of email adresses representing all users of the adressed SEC Smart system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Users"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/controller": {
+      "get": {
+        "tags": [
+          "Controller"
+        ],
+        "summary": "Returns a device' Controller data object",
+        "description": "Returns the device subobject Controller for the URL-encoded device ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Controller object representing controller hardware of a SEC Smart system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Controller"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/gateway": {
+      "get": {
+        "tags": [
+          "Gateway"
+        ],
+        "summary": "Returns a device' Gateway data object",
+        "description": "Returns the device subobject Gateway for the URL-encoded device ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Controller object representing gateway hard- and software configuration of a SEC Smart system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Gateway"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/telemetry": {
+      "get": {
+        "tags": [
+          "Telemetry"
+        ],
+        "summary": "Returns a device' telemetry data object",
+        "description": "Returns the device subobject telemetry for the URL-encoded device ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A telemetry object representing the sensor data of a SEC Smart system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Telemetry"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/notifications": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Returns a device' notification data object",
+        "description": "Returns the device subobject notification for the URL-encoded device ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A notification object representing the sensor data of a SEC Smart system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notifications"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/settings": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Returns a device' settings data object",
+        "description": "Returns the device subobject settings for the URL-encoded device ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A settings object representing the settings of a SEC Smart system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Settings"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/settings/filter": {
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Set a the filter run time and/or perform a filter reset",
+        "description": "If the maxRunTime is submitted only or the reset is set to false just the maxRunTime changes and no reset will be performed. If the reset is set as true, the filter runt time will be reset with the new maxRunTime. If no maxRunTime is commited, but reset is set to true, the filter run time will be reset using the device' internal save value.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filter": {
+                    "properties": {
+                      "maxRunTime": {
+                        "$ref": "#/components/schemas/Filter/properties/maxRunTime"
+                      },
+                      "reset": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/FilterErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/settings/thresholds": {
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Set the threshold values for humidity and CO² regulation mode",
+        "description": "Either humidity or co2 or both values can be submitted affecting just the chosen values.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "thresholds": {
+                    "$ref": "#/components/schemas/Thresholds"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/ThresholdsErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/settings/sleep-time": {
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Set the desired sleep time for sleep time mode",
+        "description": "Set the sleep time in minutes.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sleepTime": {
+                    "$ref": "#/components/schemas/Settings/properties/sleepTime"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/SleepTimeErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/settings/device-time": {
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Change the time and date adjustments of your device",
+        "description": "Change the time and date adjustments of your device.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "deviceTime": {
+                    "$ref": "#/components/schemas/Settings/properties/deviceTime"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/DeviceTimeErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/settings/summermode": {
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Change the summer ventilation mode.",
+        "description": "Turns the summer ventilation mode on or off.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "summermode": {
+                    "$ref": "#/components/schemas/Settings/properties/summermode"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/SummerModeErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/setup": {
+      "get": {
+        "tags": [
+          "Setup"
+        ],
+        "summary": "Returns a device' setup data object",
+        "description": "Returns the device subobject setup for the URL-encoded device ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A setup object representing the setup of a SEC Smart system.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Setup"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid."
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/setup/systems": {
+      "put": {
+        "tags": [
+          "Setup"
+        ],
+        "summary": "Set up the assignment what systems are installed in the particular areas",
+        "description": "Set up the assignment what systems are installed in the particular areas.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "systems": {
+                    "$ref": "#/components/schemas/Setup/properties/systems"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/SystemsErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/setup/areas": {
+      "put": {
+        "tags": [
+          "Setup"
+        ],
+        "summary": "Set up the assignment what kind of boost mode shall be used in the particular areas",
+        "description": "Set up the assignment what kind of boost mode shall be used in the particular areas.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "areas": {
+                    "$ref": "#/components/schemas/Setup/properties/areas"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/AreasBoostsErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/setup/input-di": {
+      "put": {
+        "tags": [
+          "Setup"
+        ],
+        "summary": "Set up the configuration for the digital input",
+        "description": "Set up the configuration for the digital input.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "digitalInput": {
+                    "$ref": "#/components/schemas/Setup/properties/inputDi"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/DigitalInputErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/setup/input-ai": {
+      "put": {
+        "tags": [
+          "Setup"
+        ],
+        "summary": "Set up the configuration for the analog input",
+        "description": "Set up the configuration for the analog input.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "analogInput": {
+                    "$ref": "#/components/schemas/Setup/properties/inputAi"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/AnalogInputErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/setup/output-do": {
+      "put": {
+        "tags": [
+          "Setup"
+        ],
+        "summary": "Set up the configuration for the digital output",
+        "description": "Set up the configuration for the digital output.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "digitalOutput": {
+                    "$ref": "#/components/schemas/Setup/properties/outputDo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/DigitalOutputErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    },
+    "/devices/{id}/setup/factory-reset": {
+      "put": {
+        "tags": [
+          "Setup"
+        ],
+        "summary": "Perform a factory reset of the SEC Smart System",
+        "description": "Perform a factory reset of the SEC Smart System.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "6-digit-long alphanumerical ID of the device to be adressed",
+            "schema": {
+              "type": "string",
+              "example": "1A2B3C"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nonce": {
+                    "type": "string",
+                    "description": "The Phrase to send here is \"I REALLY know what I do!\""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Your commands' syntax is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "oneOf": null,
+                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/FactoryResetErrors"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "You are not authenticated."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "myTokenScheme": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Device": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "123ABC"
+          },
+          "name": {
+            "type": "string",
+            "example": "My cool SEC Smart system"
+          },
+          "users": {
+            "$ref": "#/components/schemas/Users"
+          },
+          "areas": {
+            "$ref": "#/components/schemas/Areas"
+          },
+          "telemetry": {
+            "$ref": "#/components/schemas/Telemetry"
+          },
+          "notifications": {
+            "$ref": "#/components/schemas/Notifications"
+          },
+          "controller": {
+            "$ref": "#/components/schemas/Controller"
+          },
+          "gateway": {
+            "$ref": "#/components/schemas/Gateway"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/Settings"
+          },
+          "setup": {
+            "$ref": "#/components/schemas/Setup"
+          }
+        }
+      },
+      "Areas": {
+        "properties": {
+          "area1": {
+            "$ref": "#/components/schemas/Area"
+          },
+          "area2": {
+            "$ref": "#/components/schemas/Area"
+          },
+          "area3": {
+            "$ref": "#/components/schemas/Area"
+          },
+          "area4": {
+            "$ref": "#/components/schemas/Area"
+          },
+          "area5": {
+            "$ref": "#/components/schemas/Area"
+          },
+          "area6": {
+            "$ref": "#/components/schemas/Area"
+          }
+        }
+      },
+      "Area": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Area 1",
+              "Area 2",
+              "Area 3",
+              "Area 4",
+              "Area 5",
+              "Area 6",
+              "Sitting room",
+              "Sitting room 1",
+              "Sitting room 2",
+              "Dining room",
+              "Dining room 1",
+              "Dining room 2",
+              "Master bedroom",
+              "Bedroom 1",
+              "Bedroom 2",
+              "Childs room",
+              "Childs room 1",
+              "Childs room 2",
+              "Childs room 3",
+              "Childs room 4",
+              "Kitchen",
+              "Kitchen 1",
+              "Kitchen 2",
+              "Bathroom",
+              "Master bathroom",
+              "Guest bathroom",
+              "WC",
+              "Guest WC",
+              "Study",
+              "Study 1",
+              "Study 2",
+              "Hobby room",
+              "Multi purpose room",
+              "Store room",
+              "Cellar room",
+              "Cellar room 1",
+              "Cellar room 2",
+              "Cellar room 3",
+              "Attic",
+              "Attic 1",
+              "Attic 2",
+              "Attic 3",
+              "Office",
+              "Office 1",
+              "Office 2",
+              "Office 3",
+              "Office 4",
+              "Office 6",
+              "Executives office",
+              "Department managers office",
+              "Purchase dept office",
+              "Order Processing office",
+              "Development office",
+              "Construction office",
+              "Accounting office",
+              "Dining area",
+              "Conference room",
+              "Conference room 1",
+              "Conference room 2",
+              "Conference room 3",
+              "Lounge",
+              "Library",
+              "Fitness room",
+              "Winter garden",
+              "Craft room",
+              "Dressing room",
+              "Utility room"
+            ]
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "Fans off",
+              "Manual 1",
+              "Manual 2",
+              "Manual 3",
+              "Manual 4",
+              "Manual 5",
+              "Manual 6",
+              "Boost ventilation",
+              "Humidity regulation",
+              "CO2 regulation",
+              "Timed program",
+              "Snooze",
+              "INACTIVE"
+            ]
+          },
+          "timers": {
+            "properties": {
+              "timer1": {
+                "$ref": "#/components/schemas/Timer"
+              },
+              "timer2": {
+                "$ref": "#/components/schemas/Timer"
+              },
+              "timer3": {
+                "$ref": "#/components/schemas/Timer"
+              },
+              "timer4": {
+                "$ref": "#/components/schemas/Timer"
+              },
+              "timer5": {
+                "$ref": "#/components/schemas/Timer"
+              }
+            }
+          }
+        }
+      },
+      "Telemetry": {
+        "properties": {
+          "restSleepTime": {
+            "properties": {
+              "area1": {
+                "type": "integer",
+                "description": "Remaining time of sleep mode in area 1 in minutes.",
+                "example": 120
+              },
+              "area2": {
+                "type": "integer",
+                "description": "Remaining time of sleep mode in area 2 in minutes.",
+                "example": 120
+              },
+              "area3": {
+                "type": "integer",
+                "description": "Remaining time of sleep mode in area 3 in minutes.",
+                "example": 120
+              },
+              "area4": {
+                "type": "integer",
+                "description": "Remaining time of sleep mode in area 4 in minutes.",
+                "example": 120
+              },
+              "area5": {
+                "type": "integer",
+                "description": "Remaining time of sleep mode in area 5 in minutes.",
+                "example": 120
+              },
+              "area6": {
+                "type": "integer",
+                "description": "Remaining time of sleep mode in area 6 in minutes.",
+                "example": 120
+              }
+            }
+          },
+          "restFilterTime": {
+            "type": "integer",
+            "description": "Remaining filter run time in days.",
+            "example": 69
+          },
+          "co2": {
+            "type": "integer",
+            "description": "Actual sensor value of CO² in ppm.",
+            "example": 2120
+          },
+          "humidity": {
+            "type": "integer",
+            "description": "Actual sensor value of humidity in %.",
+            "example": 43
+          },
+          "Ti": {
+            "type": "string",
+            "description": "Actual sensor value of room temperature in °C.",
+            "format": "CC.C",
+            "example": "24.3"
+          },
+          "Ta": {
+            "type": "string",
+            "description": "Actual sensor value of outside temperature in °C.",
+            "format": "CC.C",
+            "example": "19.2"
+          },
+          "uptime": {
+            "type": "string",
+            "description": "Uptime of the SEC Smart system.",
+            "format": "yy.ddd.hh:mm",
+            "example": "01.139.07:24"
+          }
+        },
+        "readOnly": true
+      },
+      "Notifications": {
+        "properties": {
+          "filterRanOut": {
+            "type": "boolean",
+            "description": "Filter time ran out. Filter should be changed and then reset."
+          },
+          "actualMessage": {
+            "type": "string",
+            "description": "A Message containing an error code and a sentence what errors exist at this time point."
+          },
+          "lastMessage": {
+            "description": "A Message containing a time stamp, an error code and a sentence what error was the last on at which time point.",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string",
+                "example": "2021-04-17",
+                "format": "ISO 8601 YYYY-MM-DD"
+              },
+              "time": {
+                "type": "string",
+                "example": "17:23",
+                "format": "ISO 8601 hh:mm"
+              }
+            }
+          }
+        },
+        "readOnly": true
+      },
+      "Settings": {
+        "properties": {
+          "filter": {
+            "$ref": "#/components/schemas/Filter"
+          },
+          "thresholds": {
+            "$ref": "#/components/schemas/Thresholds"
+          },
+          "sleepTime": {
+            "type": "integer",
+            "description": "Duration of the sleep mode in minutes.",
+            "minimum": 10,
+            "example": 120,
+            "maximum": 250
+          },
+          "deviceTime": {
+            "description": "Time and Date of your device. If autoSynch is set to true the device will snych automatically with the internet and all manual changes here will be discarded.",
+            "properties": {
+              "time": {
+                "type": "string",
+                "example": "17:23",
+                "format": "ISO 8601 hh:mm"
+              },
+              "date": {
+                "type": "string",
+                "example": "2021-04-17",
+                "format": "ISO 8601 YYYY-MM-DD"
+              },
+              "autoSynch": {
+                "type": "boolean",
+                "default": true
+              }
+            }
+          },
+          "summermode": {
+            "type": "boolean",
+            "description": "Activation state of the summer ventilation functionality. If active no heat recovery happens."
+          }
+        }
+      },
+      "Setup": {
+        "properties": {
+          "systems": {
+            "properties": {
+              "system1": {
+                "$ref": "#/components/schemas/System"
+              },
+              "system2": {
+                "$ref": "#/components/schemas/System"
+              },
+              "system3": {
+                "$ref": "#/components/schemas/System"
+              },
+              "system4": {
+                "$ref": "#/components/schemas/System"
+              },
+              "system5": {
+                "$ref": "#/components/schemas/System"
+              },
+              "system6": {
+                "$ref": "#/components/schemas/System"
+              }
+            }
+          },
+          "areas": {
+            "properties": {
+              "area1": {
+                "$ref": "#/components/schemas/BoostMode"
+              },
+              "area2": {
+                "$ref": "#/components/schemas/BoostMode"
+              },
+              "area3": {
+                "$ref": "#/components/schemas/BoostMode"
+              },
+              "area4": {
+                "$ref": "#/components/schemas/BoostMode"
+              },
+              "area5": {
+                "$ref": "#/components/schemas/BoostMode"
+              },
+              "area6": {
+                "$ref": "#/components/schemas/BoostMode"
+              }
+            }
+          },
+          "inputDi": {
+            "$ref": "#/components/schemas/DigitalInput"
+          },
+          "outputDo": {
+            "$ref": "#/components/schemas/DigitalOutput"
+          },
+          "inputAi": {
+            "$ref": "#/components/schemas/AnalogInput"
+          }
+        }
+      },
+      "System": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "None",
+              "SEVi160",
+              "SEVi200",
+              "SEVi160D Mini Exhaust",
+              "SEVi160D Mini",
+              "SEVi160 S",
+              "SEVi160 Eco",
+              "SEVi160 PRO-S",
+              "SEVi160 PRO-ECO",
+              "SEVi160D Mini PRO Exh.",
+              "SEVi160D Mini PRO",
+              "Configurable Device"
+            ]
+          },
+          "installed": {
+            "type": "string",
+            "enum": [
+              "Area 1",
+              "Area 2",
+              "Area 3",
+              "Area 4",
+              "Area 5",
+              "Area 6"
+            ]
+          }
+        }
+      },
+      "BoostMode": {
+        "type": "string",
+        "enum": [
+          "Supply and exhaust air",
+          "Only supply air",
+          "Only exhaust air"
+        ]
+      },
+      "DigitalInput": {
+        "properties": {
+          "function": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Set fan stage 0",
+              "Set fan stage 1",
+              "Set fan stage 2",
+              "Set fan stage 3",
+              "Set fan stage 4",
+              "Set fan stage 5",
+              "Set fan stage 6",
+              "Set boost ventilation",
+              "Set to snooze",
+              "Set to automatic timer",
+              "Set to CO2",
+              "Set to humidity",
+              "Reset filter",
+              "Keep fan stage 0",
+              "Keep fan stage 1",
+              "Keep fan stage 2",
+              "Keep fan stage 3",
+              "Keep fan stage 4",
+              "Keep fan stage 5",
+              "Keep fan stage 6",
+              "Keep boost ventilation",
+              "Keep at automatic timer",
+              "Keep at CO2",
+              "Keep at humidity"
+            ]
+          },
+          "areas": {
+            "properties": {
+              "area1": {
+                "type": "boolean"
+              },
+              "area2": {
+                "type": "boolean"
+              },
+              "area3": {
+                "type": "boolean"
+              },
+              "area4": {
+                "type": "boolean"
+              },
+              "area5": {
+                "type": "boolean"
+              },
+              "area6": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "DigitalOutput": {
+        "properties": {
+          "function": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Fan stage 0 active",
+              "Fan stage 1 active",
+              "Fan stage 2 active",
+              "Fan stage 3 active",
+              "Fan stage 4 active",
+              "Fan stage 5 active",
+              "Fan stage 6 active",
+              "Boost ventilation active",
+              "Snooze mode active",
+              "All areas fan stage 0",
+              "Automatic timer active",
+              "CO2 active",
+              "Humidity active",
+              "Filter exhausted",
+              "General message",
+              "General error"
+            ]
+          },
+          "areas": {
+            "properties": {
+              "area1": {
+                "type": "boolean"
+              },
+              "area2": {
+                "type": "boolean"
+              },
+              "area3": {
+                "type": "boolean"
+              },
+              "area4": {
+                "type": "boolean"
+              },
+              "area5": {
+                "type": "boolean"
+              },
+              "area6": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "AnalogInput": {
+        "properties": {
+          "function": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Fan stage",
+              "Humidity",
+              "CO2",
+              "Ti",
+              "Ta"
+            ]
+          },
+          "functionType": {
+            "type": "string",
+            "enum": [
+              "0-10 V",
+              "4-20 mA"
+            ]
+          },
+          "areas": {
+            "properties": {
+              "area1": {
+                "type": "boolean"
+              },
+              "area2": {
+                "type": "boolean"
+              },
+              "area3": {
+                "type": "boolean"
+              },
+              "area4": {
+                "type": "boolean"
+              },
+              "area5": {
+                "type": "boolean"
+              },
+              "area6": {
+                "type": "boolean"
+              }
+            }
+          },
+          "curveParameters": {
+            "properties": {
+              "x": {
+                "properties": {
+                  "lower": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 50,
+                    "example": 25,
+                    "description": "Analog input value in % for the lower setpoint."
+                  },
+                  "upper": {
+                    "type": "integer",
+                    "minimum": 50,
+                    "maximum": 100,
+                    "example": 75,
+                    "description": "Analog input value in % for the upper setpoint."
+                  }
+                }
+              },
+              "yFanlevel": {
+                "properties": {
+                  "lower": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3,
+                    "example": 2,
+                    "description": "Fanlevel to apply at lower setpoint."
+                  },
+                  "upper": {
+                    "type": "integer",
+                    "minimum": 3,
+                    "maximum": 6,
+                    "example": 5,
+                    "description": "Fanlevel to apply at upper setpoint."
+                  }
+                }
+              },
+              "yHumidity": {
+                "properties": {
+                  "lower": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 50,
+                    "example": 43,
+                    "description": "Humidity value in % for humidity regulation mode  to apply at lower setpoint."
+                  },
+                  "upper": {
+                    "type": "integer",
+                    "minimum": 50,
+                    "maximum": 100,
+                    "example": 63,
+                    "description": "Humidity value in % for humidity regulation mode  to apply at upper setpoint."
+                  }
+                }
+              },
+              "yCO2": {
+                "properties": {
+                  "lower": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1500,
+                    "example": 1200,
+                    "description": "CO² value in ppm for CO² regulation mode  to apply at lower setpoint."
+                  },
+                  "upper": {
+                    "type": "integer",
+                    "minimum": 1500,
+                    "maximum": 5000,
+                    "example": 2200,
+                    "description": "CO² value in ppm for CO² regulation mode  to apply at upper setpoint."
+                  }
+                }
+              },
+              "yTemp": {
+                "properties": {
+                  "lower": {
+                    "type": "integer",
+                    "minimum": -50,
+                    "maximum": 0,
+                    "example": 0,
+                    "description": "Lower setpoint in °C for linear curve when used for an analog temperature sensor."
+                  },
+                  "upper": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 50,
+                    "example": 45,
+                    "description": "Upper setpoint in °C for linear curve when used for an analog temperature sensor."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Filter": {
+        "properties": {
+          "maxRunTime": {
+            "type": "integer",
+            "description": "New maximum filter run time in days.",
+            "minimum": 90,
+            "example": 180,
+            "maximum": 270
+          }
+        }
+      },
+      "Thresholds": {
+        "properties": {
+          "humidity": {
+            "type": "integer",
+            "description": "Threshold for humidity regulation in % relative humidity.",
+            "minimum": 10,
+            "example": 55,
+            "maximum": 95
+          },
+          "co2": {
+            "type": "integer",
+            "description": "Threshold for CO² regulation in ppm. Stepsize is 10.",
+            "minimum": 100,
+            "example": 2000,
+            "maximum": 5000
+          }
+        }
+      },
+      "Timer": {
+        "properties": {
+          "active": {
+            "type": "boolean"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/Area/properties/mode"
+          },
+          "time": {
+            "type": "string",
+            "example": "17:23",
+            "format": "ISO 8601 hh:mm"
+          }
+        }
+      },
+      "Users": {
+        "description": "An array containing all email adresses of users which are connected to this device.",
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "email",
+          "example": "user@sec-smart-api.de"
+        }
+      },
+      "Controller": {
+        "description": "An object representing a set of data describing your controller hardware configuration.",
+        "properties": {
+          "articleCode": {
+            "type": "string",
+            "example": "SWZ0021E21G",
+            "description": "Article Code of the Central Control Unit. Please always refer to it if you are reporting issues with your system."
+          },
+          "articleCodeTouchPanel1": {
+            "type": "string",
+            "example": "ETA0032E23G",
+            "description": "Article Code of the first touch panel. Only shown if connected."
+          },
+          "articleCodeTouchPanel2": {
+            "type": "string",
+            "example": "ETA0032E23G",
+            "description": "Article Code of the second touch panel. Only shown if connected."
+          },
+          "articleCodeTouchPanel3": {
+            "type": "string",
+            "example": "ETA0032E23G",
+            "description": "Article Code of the third touch panel. Only shown if connected."
+          }
+        }
+      },
+      "Gateway": {
+        "description": "An object representing a set of data describing your gateway. Please always report this data when reporting issues.",
+        "properties": {
+          "articleCode": {
+            "type": "string",
+            "description": "Article Code of your gateway.",
+            "example": "CEW0037E21B"
+          },
+          "id": {
+            "type": "string",
+            "description": "6-digit-long alphanumerical ID of the gateway. It is the same as the one of your system.",
+            "example": "1A2B3C"
+          },
+          "firmwareVersion": {
+            "type": "string",
+            "description": "The version of the gateway's firmware in the format 'major.minor.fix'.",
+            "example": "2.1.0"
+          }
+        }
+      },
+      "Error": {
+        "properties": {
+          "DeviceErrors": {
+            "type": "string",
+            "enum": [
+              "Field 'name' must be a string with 3 to 32 characters."
+            ]
+          },
+          "AreasErrors": {
+            "properties": {
+              "ModeErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'areaid' is mandatory and must be an integer between 1 and 6",
+                  "Field 'mode' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]"
+                ]
+              },
+              "LabelErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'areaid' is mandatory and must be an integer between 1 and 6",
+                  "Field 'label' is mandatory and must contain a string of one of this arrays entries: [${labelArray}]"
+                ]
+              },
+              "TimerErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'areaid' is mandatory and must be an integer between 1 and 6",
+                  "Field 'timers' is mandatory.",
+                  "Sub field '1' of 'timers' is mandatory.",
+                  "Sub field '2' of 'timers' is mandatory.",
+                  "Sub field '3' of 'timers' is mandatory.",
+                  "Sub field '4' of 'timers' is mandatory.",
+                  "Sub field '5' of 'timers' is mandatory.",
+                  "Sub field 'active' of '1' of 'timers' is mandatory and must be a boolean value.",
+                  "Sub field 'mode' of '1' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+                  "Sub field 'time' of '1' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
+                  "Sub field 'active' of '2' of 'timers' is mandatory and must be a boolean value.",
+                  "Sub field 'mode' of '2' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+                  "Sub field 'time' of '2' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
+                  "Sub field 'active' of '3' of 'timers' is mandatory and must be a boolean value.",
+                  "Sub field 'mode' of '3' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+                  "Sub field 'time' of '3' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
+                  "Sub field 'active' of '4' of 'timers' is mandatory and must be a boolean value.",
+                  "Sub field 'mode' of '4' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+                  "Sub field 'time' of '4' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
+                  "Sub field 'active' of '5' of 'timers' is mandatory and must be a boolean value.",
+                  "Sub field 'mode' of '5' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+                  "Sub field 'time' of '5' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'"
+                ]
+              }
+            }
+          },
+          "SettingsErrors": {
+            "properties": {
+              "FilterErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'filter' is mandatory.",
+                  "Sub field 'maxRunTime' of 'filter' is mandatory and must be an integer between 90 and 270 with a step size of 10.",
+                  "Sub field 'reset' of 'filter' is mandatory and must be a boolean representing the command to perform a filter reset or not."
+                ]
+              },
+              "ThresholdsErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'thresholds' is mandatory.",
+                  "Sub field 'co2' of 'thresholds' is mandatory and must be an integer between 100 and 5000 with a step size of 10.",
+                  "Sub field 'humidity' of 'thresholds' is mandatory and must be an integer between 10 and 95."
+                ]
+              },
+              "SleepTimeErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'sleepTime' is mandatory and must be an integer between 10 and 250"
+                ]
+              },
+              "DeviceTimeErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'deviceTime' is mandatory.",
+                  "Sub field 'autoSynch' of 'deviceTime' is mandatory and must be a boolean value.",
+                  "Sub field 'date' of 'deviceTime' is mandatory and must be a ISO8601 compliant string: 'yyyy-mm-dd'.",
+                  "Sub field 'time' of 'deviceTime' is mandatory and must contain a string encoding a time value in 'hh:mm'"
+                ]
+              },
+              "SummerModeErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'summermode' is mandatory and must be a booelan value."
+                ]
+              }
+            }
+          },
+          "SetupErrors": {
+            "properties": {
+              "SystemsErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'systems' is mandatory.",
+                  "Sub field '1' of 'systems' is mandatory.",
+                  "Sub field '2' of 'systems' is mandatory.",
+                  "Sub field '3' of 'systems' is mandatory.",
+                  "Sub field '4' of 'systems' is mandatory.",
+                  "Sub field '5' of 'systems' is mandatory.",
+                  "Sub field '6' of 'systems' is mandatory.",
+                  "Sub field 'type' of '1' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+                  "Sub field 'type' of '2' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+                  "Sub field 'type' of '3' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+                  "Sub field 'type' of '4' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+                  "Sub field 'type' of '5' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+                  "Sub field 'type' of '6' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+                  "Sub field 'installed' of '1' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+                  "Sub field 'installed' of '2' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+                  "Sub field 'installed' of '3' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+                  "Sub field 'installed' of '4' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+                  "Sub field 'installed' of '5' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+                  "Sub field 'installed' of '6' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]"
+                ]
+              },
+              "AreasBoostsErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'areas' is mandatory.",
+                  "Sub field '1' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+                  "Sub field '2' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+                  "Sub field '3' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+                  "Sub field '4' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+                  "Sub field '5' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+                  "Sub field '6' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]"
+                ]
+              },
+              "DigitalInputErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'digitalInput' is mandatory.",
+                  "Sub field 'function' of 'digitalInput' is mandatory and must contain a string of one of this arrays entries: [${diFunctionsArray}]",
+                  "Sub field 'areas' of 'digitalInput' is mandatory.",
+                  "Sub field '1' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '2' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '3' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '4' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '5' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '6' of 'areas' is mandatory and must contain a boolean value."
+                ]
+              },
+              "AnalogInputErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'analogInput' is mandatory.",
+                  "Sub field 'function' of 'digitaanalogInputlInput' is mandatory and must contain a string of one of this arrays entries: [${aiFunctionsArray}]",
+                  "Sub field 'function' of 'analogInput' is mandatory and must contain a string of one of this arrays entries: [${aiFunctionsArray}]",
+                  "Sub field 'areas' of 'analogInput' is mandatory.",
+                  "Sub field '1' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '2' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '3' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '4' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '5' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '6' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field 'curveParameters' of 'analogInput' is mandatory.",
+                  "Sub field 'x' of 'curveParameters' is mandatory.",
+                  "Sub field 'yFanlevel' of 'curveParameters' is mandatory.",
+                  "Sub field 'yHumidity' of 'curveParameters' is mandatory.",
+                  "Sub field 'yCO2' of 'curveParameters' is mandatory.",
+                  "Sub field 'yTemp' of 'curveParameters' is mandatory.",
+                  "Sub field '1' of 'x' is mandatory and must contain an integer between 0 and 50.",
+                  "Sub field '2' of 'x' is mandatory and must contain an integer between 50 and 100.",
+                  "Sub field '1' of 'yFanlevel' is mandatory and must contain an integer between 0 and 3.",
+                  "Sub field '2' of 'yFanlevel' is mandatory and must contain an integer between 3 and 6.",
+                  "Sub field '1' of 'yHumidity' is mandatory and must contain an integer between 0 and 50.",
+                  "Sub field '2' of 'yHumidity' is mandatory and must contain an integer between 50 and 100.",
+                  "Sub field '1' of 'yCO2' is mandatory and must contain an integer between 0 and 1500 with a step size of 10.",
+                  "Sub field '2' of 'yCO2' is mandatory and must contain an integer between 1500 and 5000 with a step size of 10.",
+                  "Sub field '1' of 'yTemp' is mandatory and must contain an integer between -50 and 0.",
+                  "Sub field '2' of 'yTemp' is mandatory and must contain an integer between 0 and 50."
+                ]
+              },
+              "DigitalOutputErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'digitalOuput' is mandatory.",
+                  "Sub field 'function' of 'digitalOuput' is mandatory and must contain a string of one of this arrays entries: [${doFunctionsArray}]",
+                  "Sub field 'areas' of 'digitalOuput' is mandatory.",
+                  "Sub field '1' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '2' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '3' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '4' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '5' of 'areas' is mandatory and must contain a boolean value.",
+                  "Sub field '6' of 'areas' is mandatory and must contain a boolean value."
+                ]
+              },
+              "FactoryResetErrors": {
+                "type": "string",
+                "enum": [
+                  "Field 'nonce' is mandatory and must be 'I REALLY know what I do!'."
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
