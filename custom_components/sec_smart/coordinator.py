@@ -8,7 +8,6 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .api import SecSmartApi, SecSmartAuthError, SecSmartBadRequest
-from .const import DOMAIN
 
 
 class SecSmartCoordinator(DataUpdateCoordinator[Dict[str, Any]]):

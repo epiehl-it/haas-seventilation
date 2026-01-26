@@ -6,7 +6,7 @@ from homeassistant.components.fan import (
     FanEntity,
     FanEntityFeature,
 )
-from homeassistant.const import CONF_TOKEN
+
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -14,7 +14,6 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .api import SecSmartApi, SecSmartError
 from .const import (
-    CONF_DEVICE_ID,
     DOMAIN,
     MANUAL_PERCENTAGES,
     PRESET_BOOST,

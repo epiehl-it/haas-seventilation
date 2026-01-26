@@ -4,7 +4,6 @@ from datetime import timedelta
 from typing import Any, Dict
 
 import voluptuous as vol
-from homeassistant.config_entries import SOURCE_IMPORT
 from homeassistant.const import CONF_TOKEN
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import discovery
@@ -73,7 +72,8 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             device_id,
             update_interval=timedelta(seconds=interval),
         )
-        await coordinator.async_config_entry_first_refresh()
+        await coordinator.async_refresh()
+
         hass.data[DOMAIN]["coordinators"][device_id] = coordinator
 
         discovery_info: Dict[str, Any] = {
