@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from datetime import timedelta
 from typing import Any, Dict
 
@@ -22,7 +23,7 @@ class SecSmartCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
         self.device_id = device_id
         super().__init__(
             hass,
-            hass.logger,
+            logging.getLogger(__name__),
             name=f"SEC Smart {device_id} areas",
             update_interval=update_interval,
         )
