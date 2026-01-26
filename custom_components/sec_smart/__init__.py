@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from datetime import timedelta
 from typing import Any, Dict
+import logging
+from pathlib import Path
+import shutil
 
 import voluptuous as vol
 from homeassistant.const import CONF_TOKEN
@@ -21,6 +24,8 @@ from .const import (
     DOMAIN,
 )
 from .coordinator import SecSmartCoordinator
+
+_LOGGER = logging.getLogger(__name__)
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -89,4 +94,26 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             )
         )
 
+    await _ensure_card_installed(hass)
+
     return True
+
+
+async def _ensure_card_installed(hass: HomeAssistant) -> None:
+    """Kopiert die Custom Card ins www-Verzeichnis, damit /local/... funktioniert."""
+    src = Path(__file__).resolve().parents[2] / "www" / "sec-smart-fan-card.js"
+    if not src.exists():
+        _LOGGER.debug("SEC Smart card source not found at %s", src)
+        return
+
+    dest_dir = Path(hass.config.path("www"))
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    dest = dest_dir / "sec-smart-fan-card.js"
+
+    def _copy():
+        try:
+            shutil.copy2(src, dest)
+        except Exception as err:  # pragma: no cover - best effort
+            _LOGGER.warning("Could not copy SEC Smart card: %s", err)
+
+    await hass.async_add_executor_job(_copy)
