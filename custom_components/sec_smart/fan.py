@@ -6,6 +6,7 @@ from homeassistant.components.fan import (
     FanEntity,
     FanEntityFeature,
 )
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
@@ -66,12 +67,13 @@ async def async_setup_platform(
         async_add_entities(entities)
 
 
-class SecSmartAreaFan(FanEntity):
+class SecSmartAreaFan(CoordinatorEntity, FanEntity):
     _attr_should_poll = False
     _attr_supported_features = (
         FanEntityFeature.SET_SPEED | FanEntityFeature.PRESET_MODE
     )
     _attr_preset_modes = SUPPORTED_PRESETS
+    _attr_speed_count = 6  # show 6 feste Stufen statt fein abgestufter Prozentwerte
 
     def __init__(
         self,
@@ -80,6 +82,7 @@ class SecSmartAreaFan(FanEntity):
         device_id: str,
         area_id: int,
     ) -> None:
+        super().__init__(coordinator)
         self.api = api
         self.coordinator = coordinator
         self.device_id = device_id
