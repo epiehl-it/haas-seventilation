@@ -68,7 +68,9 @@ async def async_setup_platform(
 
 class SecSmartAreaFan(FanEntity):
     _attr_should_poll = False
-    _attr_supported_features = FanEntityFeature.SET_PERCENTAGE | FanEntityFeature.PRESET_MODE
+    _attr_supported_features = (
+        FanEntityFeature.SET_SPEED | FanEntityFeature.PRESET_MODE
+    )
     _attr_preset_modes = SUPPORTED_PRESETS
 
     def __init__(
