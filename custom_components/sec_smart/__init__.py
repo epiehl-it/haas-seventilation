@@ -4,7 +4,6 @@ from datetime import timedelta
 from typing import Any, Dict
 import logging
 from pathlib import Path
-import shutil
 
 import voluptuous as vol
 from homeassistant.const import CONF_TOKEN
@@ -112,7 +111,7 @@ async def _ensure_card_installed(hass: HomeAssistant) -> None:
 
     def _copy():
         try:
-            shutil.copy2(src, dest)
+            dest.write_bytes(src.read_bytes())
         except Exception as err:  # pragma: no cover - best effort
             _LOGGER.warning("Could not copy SEC Smart card: %s", err)
 
