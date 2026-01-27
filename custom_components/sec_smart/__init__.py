@@ -105,12 +105,13 @@ async def _ensure_card_installed(hass: HomeAssistant) -> None:
         _LOGGER.debug("SEC Smart card source not found at %s", src)
         return
 
-    dest_dir = Path(hass.config.path("www"))
+    dest_dir = Path(hass.config.config_dir).joinpath("www")
     dest_dir.mkdir(parents=True, exist_ok=True)
-    dest = dest_dir / "sec-smart-fan-card.js"
+    dest = dest_dir.joinpath("sec-smart-fan-card.js")
 
     def _copy():
         try:
+            _LOGGER.info("Copying SEC Smart card to %s", dest)
             dest.write_bytes(src.read_bytes())
         except Exception as err:  # pragma: no cover - best effort
             _LOGGER.warning("Could not copy SEC Smart card: %s", err)
