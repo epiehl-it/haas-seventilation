@@ -209,3 +209,4 @@ window.customCards.push({
   name: "SEC Smart Fan Card",
   description: "Stufen 1-6 und Boost/Preset Steuerung",
 });
+

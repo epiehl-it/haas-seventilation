@@ -120,8 +120,11 @@ async def _ensure_card_installed(hass: HomeAssistant) -> None:
 
     def _copy():
         try:
-            _LOGGER.warning("SEC Smart: copying card to %s", dest)
-            dest.write_bytes(src.read_bytes())
+            src_bytes = src.read_bytes()
+            if dest.exists() and dest.read_bytes() == src_bytes:
+                return  # already up to date
+            dest.write_bytes(src_bytes)
+            _LOGGER.warning("SEC Smart: copied card to %s", dest)
         except Exception as err:  # pragma: no cover - best effort
             _LOGGER.warning("Could not copy SEC Smart card: %s", err)
 
