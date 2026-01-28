@@ -46,29 +46,20 @@ class SecSmartFanCard extends Base {
             ${isBoost ? html`<span class="chip boost">Boost</span>` : ""}
           </div>
         </div>
-        <div class="levels">
-          ${[1,2,3,4,5,6].map((lv) => this._levelButton(lv, level))}
+        <div class="slider-row">
+          <span>Stufe</span>
+          <input type="range" min="1" max="6" step="1" .value=${level} @input=${(e) => this._setLevel(Number(e.target.value))} />
+          <span class="slider-val">${level}</span>
         </div>
         <div class="actions">
-          <mwc-button outlined @click=${() => this._toggleBoost(isBoost)}>Boost ${isBoost ? "aus" : "an"}</mwc-button>
-          <mwc-button dense @click=${() => this._setPreset("schedule")}>Zeitprogramm</mwc-button>
-          <mwc-button dense @click=${() => this._setPreset("sleep")}>Sleep</mwc-button>
-          <mwc-button dense @click=${() => this._setPreset("humidity")}>Feuchte</mwc-button>
-          <mwc-button dense @click=${() => this._setPreset("co2")}>CO₂</mwc-button>
-          <mwc-button dense @click=${() => this._turnOff()}>Aus</mwc-button>
+          <button class="action" @click=${() => this._toggleBoost(isBoost)}>Boost ${isBoost ? "aus" : "an"}</button>
+          <button class="action" @click=${() => this._setPreset("schedule")}>Zeitprogramm</button>
+          <button class="action" @click=${() => this._setPreset("sleep")}>Sleep</button>
+          <button class="action" @click=${() => this._setPreset("humidity")}>Feuchte</button>
+          <button class="action" @click=${() => this._setPreset("co2")}>CO₂</button>
+          <button class="action" @click=${() => this._turnOff()}>Aus</button>
         </div>
       </ha-card>
-    `;
-  }
-
-  _levelButton(lv, current) {
-    const pct = this._pctForLevel(lv);
-    const active = lv === current;
-    return html`
-      <button class="level ${active ? "active" : ""}" @click=${() => this._setLevel(lv)}>
-        <span>Stufe ${lv}</span>
-        <small>${pct}%</small>
-      </button>
     `;
   }
 
@@ -164,33 +155,37 @@ class SecSmartFanCard extends Base {
         background: var(--accent-color);
         color: var(--text-primary-color, #fff);
       }
-      .levels {
+      .slider-row {
         margin-top: 12px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-        gap: 8px;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 10px;
       }
-      button.level {
+      .slider-row input[type="range"] {
         width: 100%;
-        border-radius: 10px;
-        border: 1px solid var(--divider-color);
-        padding: 10px;
-        background: var(--card-background-color);
-        color: inherit;
-        cursor: pointer;
       }
-      button.level.active {
-        border: 2px solid var(--accent-color);
-        box-shadow: 0 0 0 1px var(--accent-color);
-      }
-      button.level small {
-        color: var(--secondary-text-color);
+      .slider-val {
+        min-width: 24px;
+        text-align: right;
       }
       .actions {
         margin-top: 12px;
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
+      }
+      button.action {
+        border-radius: 10px;
+        border: 1px solid var(--divider-color);
+        padding: 8px 12px;
+        background: var(--card-background-color);
+        color: inherit;
+        cursor: pointer;
+      }
+      button.action:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
       }
       .error {
         padding: 16px;
