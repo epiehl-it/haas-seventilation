@@ -109,10 +109,12 @@ async def _ensure_card_installed(hass: HomeAssistant) -> None:
         Path(__file__).resolve().parents[3] / "www" / "sec-smart-fan-card.js",
     ]
 
-    src = next((p for p in candidates if p.exists()), None)
-    if not src:
+    existing = [p for p in candidates if p.exists()]
+    if not existing:
         _LOGGER.warning("SEC Smart card source not found in candidates: %s", candidates)
         return
+    # Prefer the most recently updated file to support local dev overrides.
+    src = max(existing, key=lambda p: p.stat().st_mtime)
 
     dest_dir = Path(hass.config.config_dir).joinpath("www")
     dest_dir.mkdir(parents=True, exist_ok=True)
