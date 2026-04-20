@@ -51,3 +51,4 @@ Hinweise:
 - Telemetrie (CO₂, Feuchte, Temperaturen) als Sensoren anlegen.
 - Fehler/Notifications als Binary-Sensor.
 - Optionale Überschreibung der Area-Namen in YAML.
+
