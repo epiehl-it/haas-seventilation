@@ -13,6 +13,7 @@ venv/
 .venv/
 .env
 .env.*
+!.env.example
 pip-wheel-metadata/
 .cache/
 .python-version
@@ -39,3 +40,19 @@ deps/
 
 # Logs
 *.log
+
+# Claude Code / AI workflow
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+
+# Home Assistant secrets & local dev configs
+secrets.yaml
+credentials.*
+*.local.yaml
+*.local.json
+config.local.*
+
+# Local test scratch
+tests/.local/
+tests/fixtures/real_*
