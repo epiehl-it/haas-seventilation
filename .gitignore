@@ -56,3 +56,6 @@ config.local.*
 # Local test scratch
 tests/.local/
 tests/fixtures/real_*
+
+# Codegen scratch (openapi-python-client only used as validator)
+.generated-client/
