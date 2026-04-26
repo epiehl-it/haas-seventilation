@@ -46,6 +46,17 @@ Hinweise:
 ## Releases
 - Version in `custom_components/sec_smart/manifest.json` muss mit dem Release-Tag übereinstimmen (z. B. `v0.1.0`).
 
+## Entwicklung
+
+Für lokale Entwicklung:
+
+- `.env.example` nach `.env` kopieren und Werte eintragen. `.env` ist gitignored.
+- Für den produktiven Einsatz in Home Assistant den Token über `!secret sec_smart_token` in `secrets.yaml` referenzieren (siehe Installationsanleitung oben).
+- Lokale Claude-Code-/AI-Artefakte (`.claude/`, `CLAUDE.md`) sowie `secrets.yaml` bleiben lokal und werden nicht eingecheckt.
+- Dev-Toolchain via [`uv`](https://docs.astral.sh/uv/): `uv sync` legt `.venv` an und installiert die Test- und Codegen-Werkzeuge.
+- Tests laufen: `uv run pytest`. Aktuell sind nur die HA-unabhängigen Module (`api.py`, `models.py`) abgedeckt.
+- OpenAPI-Workflow: `scripts/fetch_upstream_spec.sh` zieht die aktuelle Upstream-Spec; `scripts/patch_spec.py` macht sie validierbar (idempotent); `scripts/validate_spec.sh` prüft sie via `openapi-python-client`; `scripts/regen_models.sh` generiert die TypedDict-Modelle in `custom_components/sec_smart/models.py`.
+
 ## ToDo / Ideen
 - Config-Flow (UI) hinzufügen.
 - Telemetrie (CO₂, Feuchte, Temperaturen) als Sensoren anlegen.

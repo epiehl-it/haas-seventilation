@@ -174,7 +174,7 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "$ref": "#/components/schemas/Device/properties/name"
+                    "$ref": "#/components/schemas/DeviceName"
                   }
                 }
               }
@@ -197,10 +197,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/DeviceErrors"
+                      "$ref": "#/components/schemas/DeviceErrors"
                     }
                   }
                 }
@@ -285,7 +285,7 @@
                     "description": "Area to apply the ventilation mode to"
                   },
                   "mode": {
-                    "$ref": "#/components/schemas/Area/properties/mode"
+                    "$ref": "#/components/schemas/AreaMode"
                   }
                 }
               }
@@ -308,10 +308,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/AreasErrors/properties/ModeErrors"
+                      "$ref": "#/components/schemas/AreaModeErrors"
                     }
                   }
                 }
@@ -357,7 +357,7 @@
                     "description": "Area to apply the label to"
                   },
                   "label": {
-                    "$ref": "#/components/schemas/Area/properties/label"
+                    "$ref": "#/components/schemas/AreaLabel"
                   }
                 }
               }
@@ -380,10 +380,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/AreasErrors/properties/LabelErrors"
+                      "$ref": "#/components/schemas/AreaLabelErrors"
                     }
                   }
                 }
@@ -429,7 +429,7 @@
                     "description": "Area to apply the timers to"
                   },
                   "timers": {
-                    "$ref": "#/components/schemas/Area/properties/timers"
+                    "$ref": "#/components/schemas/AreaTimers"
                   }
                 }
               }
@@ -452,10 +452,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/AreasErrors/properties/TimerErrors"
+                      "$ref": "#/components/schemas/AreaTimerErrors"
                     }
                   }
                 }
@@ -729,9 +729,10 @@
                 "type": "object",
                 "properties": {
                   "filter": {
+                    "type": "object",
                     "properties": {
                       "maxRunTime": {
-                        "$ref": "#/components/schemas/Filter/properties/maxRunTime"
+                        "$ref": "#/components/schemas/FilterMaxRunTime"
                       },
                       "reset": {
                         "type": "boolean",
@@ -760,10 +761,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/FilterErrors"
+                      "$ref": "#/components/schemas/SettingsFilterErrors"
                     }
                   }
                 }
@@ -826,10 +827,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/ThresholdsErrors"
+                      "$ref": "#/components/schemas/SettingsThresholdsErrors"
                     }
                   }
                 }
@@ -869,7 +870,7 @@
                 "type": "object",
                 "properties": {
                   "sleepTime": {
-                    "$ref": "#/components/schemas/Settings/properties/sleepTime"
+                    "$ref": "#/components/schemas/SettingsSleepTime"
                   }
                 }
               }
@@ -892,10 +893,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/SleepTimeErrors"
+                      "$ref": "#/components/schemas/SettingsSleepTimeErrors"
                     }
                   }
                 }
@@ -935,7 +936,7 @@
                 "type": "object",
                 "properties": {
                   "deviceTime": {
-                    "$ref": "#/components/schemas/Settings/properties/deviceTime"
+                    "$ref": "#/components/schemas/SettingsDeviceTime"
                   }
                 }
               }
@@ -958,10 +959,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/DeviceTimeErrors"
+                      "$ref": "#/components/schemas/SettingsDeviceTimeErrors"
                     }
                   }
                 }
@@ -1001,7 +1002,7 @@
                 "type": "object",
                 "properties": {
                   "summermode": {
-                    "$ref": "#/components/schemas/Settings/properties/summermode"
+                    "$ref": "#/components/schemas/SettingsSummerMode"
                   }
                 }
               }
@@ -1024,10 +1025,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SettingsErrors/properties/SummerModeErrors"
+                      "$ref": "#/components/schemas/SettingsSummerModeErrors"
                     }
                   }
                 }
@@ -1106,7 +1107,7 @@
                 "type": "object",
                 "properties": {
                   "systems": {
-                    "$ref": "#/components/schemas/Setup/properties/systems"
+                    "$ref": "#/components/schemas/SetupSystems"
                   }
                 }
               }
@@ -1129,10 +1130,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/SystemsErrors"
+                      "$ref": "#/components/schemas/SetupSystemsErrors"
                     }
                   }
                 }
@@ -1172,7 +1173,7 @@
                 "type": "object",
                 "properties": {
                   "areas": {
-                    "$ref": "#/components/schemas/Setup/properties/areas"
+                    "$ref": "#/components/schemas/SetupAreas"
                   }
                 }
               }
@@ -1195,10 +1196,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/AreasBoostsErrors"
+                      "$ref": "#/components/schemas/SetupAreasBoostsErrors"
                     }
                   }
                 }
@@ -1238,7 +1239,7 @@
                 "type": "object",
                 "properties": {
                   "digitalInput": {
-                    "$ref": "#/components/schemas/Setup/properties/inputDi"
+                    "$ref": "#/components/schemas/SetupInputDi"
                   }
                 }
               }
@@ -1261,10 +1262,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/DigitalInputErrors"
+                      "$ref": "#/components/schemas/SetupDigitalInputErrors"
                     }
                   }
                 }
@@ -1304,7 +1305,7 @@
                 "type": "object",
                 "properties": {
                   "analogInput": {
-                    "$ref": "#/components/schemas/Setup/properties/inputAi"
+                    "$ref": "#/components/schemas/SetupInputAi"
                   }
                 }
               }
@@ -1327,10 +1328,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/AnalogInputErrors"
+                      "$ref": "#/components/schemas/SetupAnalogInputErrors"
                     }
                   }
                 }
@@ -1370,7 +1371,7 @@
                 "type": "object",
                 "properties": {
                   "digitalOutput": {
-                    "$ref": "#/components/schemas/Setup/properties/outputDo"
+                    "$ref": "#/components/schemas/SetupOutputDo"
                   }
                 }
               }
@@ -1393,10 +1394,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/DigitalOutputErrors"
+                      "$ref": "#/components/schemas/SetupDigitalOutputErrors"
                     }
                   }
                 }
@@ -1460,10 +1461,10 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
-                      "oneOf": null,
-                      "$ref": "#/components/schemas/Error/properties/SetupErrors/properties/FactoryResetErrors"
+                      "$ref": "#/components/schemas/SetupFactoryResetErrors"
                     }
                   }
                 }
@@ -1487,14 +1488,14 @@
     },
     "schemas": {
       "Device": {
+        "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "example": "123ABC"
           },
           "name": {
-            "type": "string",
-            "example": "My cool SEC Smart system"
+            "$ref": "#/components/schemas/DeviceName"
           },
           "users": {
             "$ref": "#/components/schemas/Users"
@@ -1523,6 +1524,7 @@
         }
       },
       "Areas": {
+        "type": "object",
         "properties": {
           "area1": {
             "$ref": "#/components/schemas/Area"
@@ -1545,122 +1547,24 @@
         }
       },
       "Area": {
+        "type": "object",
         "properties": {
           "label": {
-            "type": "string",
-            "enum": [
-              "None",
-              "Area 1",
-              "Area 2",
-              "Area 3",
-              "Area 4",
-              "Area 5",
-              "Area 6",
-              "Sitting room",
-              "Sitting room 1",
-              "Sitting room 2",
-              "Dining room",
-              "Dining room 1",
-              "Dining room 2",
-              "Master bedroom",
-              "Bedroom 1",
-              "Bedroom 2",
-              "Childs room",
-              "Childs room 1",
-              "Childs room 2",
-              "Childs room 3",
-              "Childs room 4",
-              "Kitchen",
-              "Kitchen 1",
-              "Kitchen 2",
-              "Bathroom",
-              "Master bathroom",
-              "Guest bathroom",
-              "WC",
-              "Guest WC",
-              "Study",
-              "Study 1",
-              "Study 2",
-              "Hobby room",
-              "Multi purpose room",
-              "Store room",
-              "Cellar room",
-              "Cellar room 1",
-              "Cellar room 2",
-              "Cellar room 3",
-              "Attic",
-              "Attic 1",
-              "Attic 2",
-              "Attic 3",
-              "Office",
-              "Office 1",
-              "Office 2",
-              "Office 3",
-              "Office 4",
-              "Office 6",
-              "Executives office",
-              "Department managers office",
-              "Purchase dept office",
-              "Order Processing office",
-              "Development office",
-              "Construction office",
-              "Accounting office",
-              "Dining area",
-              "Conference room",
-              "Conference room 1",
-              "Conference room 2",
-              "Conference room 3",
-              "Lounge",
-              "Library",
-              "Fitness room",
-              "Winter garden",
-              "Craft room",
-              "Dressing room",
-              "Utility room"
-            ]
+            "$ref": "#/components/schemas/AreaLabel"
           },
           "mode": {
-            "type": "string",
-            "enum": [
-              "Fans off",
-              "Manual 1",
-              "Manual 2",
-              "Manual 3",
-              "Manual 4",
-              "Manual 5",
-              "Manual 6",
-              "Boost ventilation",
-              "Humidity regulation",
-              "CO2 regulation",
-              "Timed program",
-              "Snooze",
-              "INACTIVE"
-            ]
+            "$ref": "#/components/schemas/AreaMode"
           },
           "timers": {
-            "properties": {
-              "timer1": {
-                "$ref": "#/components/schemas/Timer"
-              },
-              "timer2": {
-                "$ref": "#/components/schemas/Timer"
-              },
-              "timer3": {
-                "$ref": "#/components/schemas/Timer"
-              },
-              "timer4": {
-                "$ref": "#/components/schemas/Timer"
-              },
-              "timer5": {
-                "$ref": "#/components/schemas/Timer"
-              }
-            }
+            "$ref": "#/components/schemas/AreaTimers"
           }
         }
       },
       "Telemetry": {
+        "type": "object",
         "properties": {
           "restSleepTime": {
+            "type": "object",
             "properties": {
               "area1": {
                 "type": "integer",
@@ -1711,26 +1615,24 @@
           },
           "Ti": {
             "type": "string",
-            "description": "Actual sensor value of room temperature in °C.",
-            "format": "CC.C",
+            "description": "Actual sensor value of room temperature in °C. (format: CC.C)",
             "example": "24.3"
           },
           "Ta": {
             "type": "string",
-            "description": "Actual sensor value of outside temperature in °C.",
-            "format": "CC.C",
+            "description": "Actual sensor value of outside temperature in °C. (format: CC.C)",
             "example": "19.2"
           },
           "uptime": {
             "type": "string",
-            "description": "Uptime of the SEC Smart system.",
-            "format": "yy.ddd.hh:mm",
+            "description": "Uptime of the SEC Smart system. (format: yy.ddd.hh:mm)",
             "example": "01.139.07:24"
           }
         },
         "readOnly": true
       },
       "Notifications": {
+        "type": "object",
         "properties": {
           "filterRanOut": {
             "type": "boolean",
@@ -1741,6 +1643,7 @@
             "description": "A Message containing an error code and a sentence what errors exist at this time point."
           },
           "lastMessage": {
+            "type": "object",
             "description": "A Message containing a time stamp, an error code and a sentence what error was the last on at which time point.",
             "properties": {
               "message": {
@@ -1749,12 +1652,12 @@
               "date": {
                 "type": "string",
                 "example": "2021-04-17",
-                "format": "ISO 8601 YYYY-MM-DD"
+                "format": "date"
               },
               "time": {
                 "type": "string",
                 "example": "17:23",
-                "format": "ISO 8601 hh:mm"
+                "format": "time"
               }
             }
           }
@@ -1762,6 +1665,7 @@
         "readOnly": true
       },
       "Settings": {
+        "type": "object",
         "properties": {
           "filter": {
             "$ref": "#/components/schemas/Filter"
@@ -1770,95 +1674,38 @@
             "$ref": "#/components/schemas/Thresholds"
           },
           "sleepTime": {
-            "type": "integer",
-            "description": "Duration of the sleep mode in minutes.",
-            "minimum": 10,
-            "example": 120,
-            "maximum": 250
+            "$ref": "#/components/schemas/SettingsSleepTime"
           },
           "deviceTime": {
-            "description": "Time and Date of your device. If autoSynch is set to true the device will snych automatically with the internet and all manual changes here will be discarded.",
-            "properties": {
-              "time": {
-                "type": "string",
-                "example": "17:23",
-                "format": "ISO 8601 hh:mm"
-              },
-              "date": {
-                "type": "string",
-                "example": "2021-04-17",
-                "format": "ISO 8601 YYYY-MM-DD"
-              },
-              "autoSynch": {
-                "type": "boolean",
-                "default": true
-              }
-            }
+            "$ref": "#/components/schemas/SettingsDeviceTime"
           },
           "summermode": {
-            "type": "boolean",
-            "description": "Activation state of the summer ventilation functionality. If active no heat recovery happens."
+            "$ref": "#/components/schemas/SettingsSummerMode"
           }
         }
       },
       "Setup": {
+        "type": "object",
         "properties": {
           "systems": {
-            "properties": {
-              "system1": {
-                "$ref": "#/components/schemas/System"
-              },
-              "system2": {
-                "$ref": "#/components/schemas/System"
-              },
-              "system3": {
-                "$ref": "#/components/schemas/System"
-              },
-              "system4": {
-                "$ref": "#/components/schemas/System"
-              },
-              "system5": {
-                "$ref": "#/components/schemas/System"
-              },
-              "system6": {
-                "$ref": "#/components/schemas/System"
-              }
-            }
+            "$ref": "#/components/schemas/SetupSystems"
           },
           "areas": {
-            "properties": {
-              "area1": {
-                "$ref": "#/components/schemas/BoostMode"
-              },
-              "area2": {
-                "$ref": "#/components/schemas/BoostMode"
-              },
-              "area3": {
-                "$ref": "#/components/schemas/BoostMode"
-              },
-              "area4": {
-                "$ref": "#/components/schemas/BoostMode"
-              },
-              "area5": {
-                "$ref": "#/components/schemas/BoostMode"
-              },
-              "area6": {
-                "$ref": "#/components/schemas/BoostMode"
-              }
-            }
+            "$ref": "#/components/schemas/SetupAreas"
           },
           "inputDi": {
-            "$ref": "#/components/schemas/DigitalInput"
+            "$ref": "#/components/schemas/SetupInputDi"
           },
           "outputDo": {
-            "$ref": "#/components/schemas/DigitalOutput"
+            "$ref": "#/components/schemas/SetupOutputDo"
           },
           "inputAi": {
-            "$ref": "#/components/schemas/AnalogInput"
+            "$ref": "#/components/schemas/SetupInputAi"
           }
         }
       },
       "System": {
+        "type": "object",
         "properties": {
           "type": {
             "type": "string",
@@ -1899,6 +1746,7 @@
         ]
       },
       "DigitalInput": {
+        "type": "object",
         "properties": {
           "function": {
             "type": "string",
@@ -1931,6 +1779,7 @@
             ]
           },
           "areas": {
+            "type": "object",
             "properties": {
               "area1": {
                 "type": "boolean"
@@ -1955,6 +1804,7 @@
         }
       },
       "DigitalOutput": {
+        "type": "object",
         "properties": {
           "function": {
             "type": "string",
@@ -1979,6 +1829,7 @@
             ]
           },
           "areas": {
+            "type": "object",
             "properties": {
               "area1": {
                 "type": "boolean"
@@ -2003,6 +1854,7 @@
         }
       },
       "AnalogInput": {
+        "type": "object",
         "properties": {
           "function": {
             "type": "string",
@@ -2023,6 +1875,7 @@
             ]
           },
           "areas": {
+            "type": "object",
             "properties": {
               "area1": {
                 "type": "boolean"
@@ -2045,8 +1898,10 @@
             }
           },
           "curveParameters": {
+            "type": "object",
             "properties": {
               "x": {
+                "type": "object",
                 "properties": {
                   "lower": {
                     "type": "integer",
@@ -2065,6 +1920,7 @@
                 }
               },
               "yFanlevel": {
+                "type": "object",
                 "properties": {
                   "lower": {
                     "type": "integer",
@@ -2083,6 +1939,7 @@
                 }
               },
               "yHumidity": {
+                "type": "object",
                 "properties": {
                   "lower": {
                     "type": "integer",
@@ -2101,6 +1958,7 @@
                 }
               },
               "yCO2": {
+                "type": "object",
                 "properties": {
                   "lower": {
                     "type": "integer",
@@ -2119,6 +1977,7 @@
                 }
               },
               "yTemp": {
+                "type": "object",
                 "properties": {
                   "lower": {
                     "type": "integer",
@@ -2141,17 +2000,15 @@
         }
       },
       "Filter": {
+        "type": "object",
         "properties": {
           "maxRunTime": {
-            "type": "integer",
-            "description": "New maximum filter run time in days.",
-            "minimum": 90,
-            "example": 180,
-            "maximum": 270
+            "$ref": "#/components/schemas/FilterMaxRunTime"
           }
         }
       },
       "Thresholds": {
+        "type": "object",
         "properties": {
           "humidity": {
             "type": "integer",
@@ -2170,12 +2027,13 @@
         }
       },
       "Timer": {
+        "type": "object",
         "properties": {
           "active": {
             "type": "boolean"
           },
           "mode": {
-            "$ref": "#/components/schemas/Area/properties/mode"
+            "$ref": "#/components/schemas/AreaMode"
           },
           "time": {
             "type": "string",
@@ -2194,6 +2052,7 @@
         }
       },
       "Controller": {
+        "type": "object",
         "description": "An object representing a set of data describing your controller hardware configuration.",
         "properties": {
           "articleCode": {
@@ -2219,6 +2078,7 @@
         }
       },
       "Gateway": {
+        "type": "object",
         "description": "An object representing a set of data describing your gateway. Please always report this data when reporting issues.",
         "properties": {
           "articleCode": {
@@ -2239,205 +2099,462 @@
         }
       },
       "Error": {
+        "type": "object",
         "properties": {
           "DeviceErrors": {
-            "type": "string",
-            "enum": [
-              "Field 'name' must be a string with 3 to 32 characters."
-            ]
+            "$ref": "#/components/schemas/DeviceErrors"
           },
           "AreasErrors": {
+            "type": "object",
             "properties": {
               "ModeErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'areaid' is mandatory and must be an integer between 1 and 6",
-                  "Field 'mode' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]"
-                ]
+                "$ref": "#/components/schemas/AreaModeErrors"
               },
               "LabelErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'areaid' is mandatory and must be an integer between 1 and 6",
-                  "Field 'label' is mandatory and must contain a string of one of this arrays entries: [${labelArray}]"
-                ]
+                "$ref": "#/components/schemas/AreaLabelErrors"
               },
               "TimerErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'areaid' is mandatory and must be an integer between 1 and 6",
-                  "Field 'timers' is mandatory.",
-                  "Sub field '1' of 'timers' is mandatory.",
-                  "Sub field '2' of 'timers' is mandatory.",
-                  "Sub field '3' of 'timers' is mandatory.",
-                  "Sub field '4' of 'timers' is mandatory.",
-                  "Sub field '5' of 'timers' is mandatory.",
-                  "Sub field 'active' of '1' of 'timers' is mandatory and must be a boolean value.",
-                  "Sub field 'mode' of '1' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
-                  "Sub field 'time' of '1' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
-                  "Sub field 'active' of '2' of 'timers' is mandatory and must be a boolean value.",
-                  "Sub field 'mode' of '2' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
-                  "Sub field 'time' of '2' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
-                  "Sub field 'active' of '3' of 'timers' is mandatory and must be a boolean value.",
-                  "Sub field 'mode' of '3' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
-                  "Sub field 'time' of '3' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
-                  "Sub field 'active' of '4' of 'timers' is mandatory and must be a boolean value.",
-                  "Sub field 'mode' of '4' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
-                  "Sub field 'time' of '4' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
-                  "Sub field 'active' of '5' of 'timers' is mandatory and must be a boolean value.",
-                  "Sub field 'mode' of '5' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
-                  "Sub field 'time' of '5' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'"
-                ]
+                "$ref": "#/components/schemas/AreaTimerErrors"
               }
             }
           },
           "SettingsErrors": {
+            "type": "object",
             "properties": {
               "FilterErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'filter' is mandatory.",
-                  "Sub field 'maxRunTime' of 'filter' is mandatory and must be an integer between 90 and 270 with a step size of 10.",
-                  "Sub field 'reset' of 'filter' is mandatory and must be a boolean representing the command to perform a filter reset or not."
-                ]
+                "$ref": "#/components/schemas/SettingsFilterErrors"
               },
               "ThresholdsErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'thresholds' is mandatory.",
-                  "Sub field 'co2' of 'thresholds' is mandatory and must be an integer between 100 and 5000 with a step size of 10.",
-                  "Sub field 'humidity' of 'thresholds' is mandatory and must be an integer between 10 and 95."
-                ]
+                "$ref": "#/components/schemas/SettingsThresholdsErrors"
               },
               "SleepTimeErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'sleepTime' is mandatory and must be an integer between 10 and 250"
-                ]
+                "$ref": "#/components/schemas/SettingsSleepTimeErrors"
               },
               "DeviceTimeErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'deviceTime' is mandatory.",
-                  "Sub field 'autoSynch' of 'deviceTime' is mandatory and must be a boolean value.",
-                  "Sub field 'date' of 'deviceTime' is mandatory and must be a ISO8601 compliant string: 'yyyy-mm-dd'.",
-                  "Sub field 'time' of 'deviceTime' is mandatory and must contain a string encoding a time value in 'hh:mm'"
-                ]
+                "$ref": "#/components/schemas/SettingsDeviceTimeErrors"
               },
               "SummerModeErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'summermode' is mandatory and must be a booelan value."
-                ]
+                "$ref": "#/components/schemas/SettingsSummerModeErrors"
               }
             }
           },
           "SetupErrors": {
+            "type": "object",
             "properties": {
               "SystemsErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'systems' is mandatory.",
-                  "Sub field '1' of 'systems' is mandatory.",
-                  "Sub field '2' of 'systems' is mandatory.",
-                  "Sub field '3' of 'systems' is mandatory.",
-                  "Sub field '4' of 'systems' is mandatory.",
-                  "Sub field '5' of 'systems' is mandatory.",
-                  "Sub field '6' of 'systems' is mandatory.",
-                  "Sub field 'type' of '1' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
-                  "Sub field 'type' of '2' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
-                  "Sub field 'type' of '3' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
-                  "Sub field 'type' of '4' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
-                  "Sub field 'type' of '5' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
-                  "Sub field 'type' of '6' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
-                  "Sub field 'installed' of '1' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
-                  "Sub field 'installed' of '2' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
-                  "Sub field 'installed' of '3' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
-                  "Sub field 'installed' of '4' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
-                  "Sub field 'installed' of '5' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
-                  "Sub field 'installed' of '6' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]"
-                ]
+                "$ref": "#/components/schemas/SetupSystemsErrors"
               },
               "AreasBoostsErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'areas' is mandatory.",
-                  "Sub field '1' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
-                  "Sub field '2' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
-                  "Sub field '3' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
-                  "Sub field '4' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
-                  "Sub field '5' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
-                  "Sub field '6' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]"
-                ]
+                "$ref": "#/components/schemas/SetupAreasBoostsErrors"
               },
               "DigitalInputErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'digitalInput' is mandatory.",
-                  "Sub field 'function' of 'digitalInput' is mandatory and must contain a string of one of this arrays entries: [${diFunctionsArray}]",
-                  "Sub field 'areas' of 'digitalInput' is mandatory.",
-                  "Sub field '1' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '2' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '3' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '4' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '5' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '6' of 'areas' is mandatory and must contain a boolean value."
-                ]
+                "$ref": "#/components/schemas/SetupDigitalInputErrors"
               },
               "AnalogInputErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'analogInput' is mandatory.",
-                  "Sub field 'function' of 'digitaanalogInputlInput' is mandatory and must contain a string of one of this arrays entries: [${aiFunctionsArray}]",
-                  "Sub field 'function' of 'analogInput' is mandatory and must contain a string of one of this arrays entries: [${aiFunctionsArray}]",
-                  "Sub field 'areas' of 'analogInput' is mandatory.",
-                  "Sub field '1' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '2' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '3' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '4' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '5' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '6' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field 'curveParameters' of 'analogInput' is mandatory.",
-                  "Sub field 'x' of 'curveParameters' is mandatory.",
-                  "Sub field 'yFanlevel' of 'curveParameters' is mandatory.",
-                  "Sub field 'yHumidity' of 'curveParameters' is mandatory.",
-                  "Sub field 'yCO2' of 'curveParameters' is mandatory.",
-                  "Sub field 'yTemp' of 'curveParameters' is mandatory.",
-                  "Sub field '1' of 'x' is mandatory and must contain an integer between 0 and 50.",
-                  "Sub field '2' of 'x' is mandatory and must contain an integer between 50 and 100.",
-                  "Sub field '1' of 'yFanlevel' is mandatory and must contain an integer between 0 and 3.",
-                  "Sub field '2' of 'yFanlevel' is mandatory and must contain an integer between 3 and 6.",
-                  "Sub field '1' of 'yHumidity' is mandatory and must contain an integer between 0 and 50.",
-                  "Sub field '2' of 'yHumidity' is mandatory and must contain an integer between 50 and 100.",
-                  "Sub field '1' of 'yCO2' is mandatory and must contain an integer between 0 and 1500 with a step size of 10.",
-                  "Sub field '2' of 'yCO2' is mandatory and must contain an integer between 1500 and 5000 with a step size of 10.",
-                  "Sub field '1' of 'yTemp' is mandatory and must contain an integer between -50 and 0.",
-                  "Sub field '2' of 'yTemp' is mandatory and must contain an integer between 0 and 50."
-                ]
+                "$ref": "#/components/schemas/SetupAnalogInputErrors"
               },
               "DigitalOutputErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'digitalOuput' is mandatory.",
-                  "Sub field 'function' of 'digitalOuput' is mandatory and must contain a string of one of this arrays entries: [${doFunctionsArray}]",
-                  "Sub field 'areas' of 'digitalOuput' is mandatory.",
-                  "Sub field '1' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '2' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '3' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '4' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '5' of 'areas' is mandatory and must contain a boolean value.",
-                  "Sub field '6' of 'areas' is mandatory and must contain a boolean value."
-                ]
+                "$ref": "#/components/schemas/SetupDigitalOutputErrors"
               },
               "FactoryResetErrors": {
-                "type": "string",
-                "enum": [
-                  "Field 'nonce' is mandatory and must be 'I REALLY know what I do!'."
-                ]
+                "$ref": "#/components/schemas/SetupFactoryResetErrors"
               }
             }
           }
         }
+      },
+      "DeviceName": {
+        "type": "string",
+        "example": "My cool SEC Smart system"
+      },
+      "AreaMode": {
+        "type": "string",
+        "enum": [
+          "Fans off",
+          "Manual 1",
+          "Manual 2",
+          "Manual 3",
+          "Manual 4",
+          "Manual 5",
+          "Manual 6",
+          "Boost ventilation",
+          "Humidity regulation",
+          "CO2 regulation",
+          "Timed program",
+          "Snooze",
+          "INACTIVE"
+        ]
+      },
+      "AreaLabel": {
+        "type": "string",
+        "enum": [
+          "None",
+          "Area 1",
+          "Area 2",
+          "Area 3",
+          "Area 4",
+          "Area 5",
+          "Area 6",
+          "Sitting room",
+          "Sitting room 1",
+          "Sitting room 2",
+          "Dining room",
+          "Dining room 1",
+          "Dining room 2",
+          "Master bedroom",
+          "Bedroom 1",
+          "Bedroom 2",
+          "Childs room",
+          "Childs room 1",
+          "Childs room 2",
+          "Childs room 3",
+          "Childs room 4",
+          "Kitchen",
+          "Kitchen 1",
+          "Kitchen 2",
+          "Bathroom",
+          "Master bathroom",
+          "Guest bathroom",
+          "WC",
+          "Guest WC",
+          "Study",
+          "Study 1",
+          "Study 2",
+          "Hobby room",
+          "Multi purpose room",
+          "Store room",
+          "Cellar room",
+          "Cellar room 1",
+          "Cellar room 2",
+          "Cellar room 3",
+          "Attic",
+          "Attic 1",
+          "Attic 2",
+          "Attic 3",
+          "Office",
+          "Office 1",
+          "Office 2",
+          "Office 3",
+          "Office 4",
+          "Office 6",
+          "Executives office",
+          "Department managers office",
+          "Purchase dept office",
+          "Order Processing office",
+          "Development office",
+          "Construction office",
+          "Accounting office",
+          "Dining area",
+          "Conference room",
+          "Conference room 1",
+          "Conference room 2",
+          "Conference room 3",
+          "Lounge",
+          "Library",
+          "Fitness room",
+          "Winter garden",
+          "Craft room",
+          "Dressing room",
+          "Utility room"
+        ]
+      },
+      "AreaTimers": {
+        "type": "object",
+        "properties": {
+          "timer1": {
+            "$ref": "#/components/schemas/Timer"
+          },
+          "timer2": {
+            "$ref": "#/components/schemas/Timer"
+          },
+          "timer3": {
+            "$ref": "#/components/schemas/Timer"
+          },
+          "timer4": {
+            "$ref": "#/components/schemas/Timer"
+          },
+          "timer5": {
+            "$ref": "#/components/schemas/Timer"
+          }
+        }
+      },
+      "FilterMaxRunTime": {
+        "type": "integer",
+        "description": "New maximum filter run time in days.",
+        "minimum": 90,
+        "example": 180,
+        "maximum": 270
+      },
+      "SettingsSleepTime": {
+        "type": "integer",
+        "description": "Duration of the sleep mode in minutes.",
+        "minimum": 10,
+        "example": 120,
+        "maximum": 250
+      },
+      "SettingsDeviceTime": {
+        "type": "object",
+        "description": "Time and Date of your device. If autoSynch is set to true the device will snych automatically with the internet and all manual changes here will be discarded.",
+        "properties": {
+          "time": {
+            "type": "string",
+            "example": "17:23",
+            "format": "ISO 8601 hh:mm"
+          },
+          "date": {
+            "type": "string",
+            "example": "2021-04-17",
+            "format": "ISO 8601 YYYY-MM-DD"
+          },
+          "autoSynch": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "SettingsSummerMode": {
+        "type": "boolean",
+        "description": "Activation state of the summer ventilation functionality. If active no heat recovery happens."
+      },
+      "SetupSystems": {
+        "type": "object",
+        "properties": {
+          "system1": {
+            "$ref": "#/components/schemas/System"
+          },
+          "system2": {
+            "$ref": "#/components/schemas/System"
+          },
+          "system3": {
+            "$ref": "#/components/schemas/System"
+          },
+          "system4": {
+            "$ref": "#/components/schemas/System"
+          },
+          "system5": {
+            "$ref": "#/components/schemas/System"
+          },
+          "system6": {
+            "$ref": "#/components/schemas/System"
+          }
+        }
+      },
+      "SetupAreas": {
+        "type": "object",
+        "properties": {
+          "area1": {
+            "$ref": "#/components/schemas/BoostMode"
+          },
+          "area2": {
+            "$ref": "#/components/schemas/BoostMode"
+          },
+          "area3": {
+            "$ref": "#/components/schemas/BoostMode"
+          },
+          "area4": {
+            "$ref": "#/components/schemas/BoostMode"
+          },
+          "area5": {
+            "$ref": "#/components/schemas/BoostMode"
+          },
+          "area6": {
+            "$ref": "#/components/schemas/BoostMode"
+          }
+        }
+      },
+      "SetupInputDi": {
+        "$ref": "#/components/schemas/DigitalInput"
+      },
+      "SetupInputAi": {
+        "$ref": "#/components/schemas/AnalogInput"
+      },
+      "SetupOutputDo": {
+        "$ref": "#/components/schemas/DigitalOutput"
+      },
+      "DeviceErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'name' must be a string with 3 to 32 characters."
+        ]
+      },
+      "AreaModeErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'areaid' is mandatory and must be an integer between 1 and 6",
+          "Field 'mode' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]"
+        ]
+      },
+      "AreaLabelErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'areaid' is mandatory and must be an integer between 1 and 6",
+          "Field 'label' is mandatory and must contain a string of one of this arrays entries: [${labelArray}]"
+        ]
+      },
+      "AreaTimerErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'areaid' is mandatory and must be an integer between 1 and 6",
+          "Field 'timers' is mandatory.",
+          "Sub field '1' of 'timers' is mandatory.",
+          "Sub field '2' of 'timers' is mandatory.",
+          "Sub field '3' of 'timers' is mandatory.",
+          "Sub field '4' of 'timers' is mandatory.",
+          "Sub field '5' of 'timers' is mandatory.",
+          "Sub field 'active' of '1' of 'timers' is mandatory and must be a boolean value.",
+          "Sub field 'mode' of '1' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+          "Sub field 'time' of '1' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
+          "Sub field 'active' of '2' of 'timers' is mandatory and must be a boolean value.",
+          "Sub field 'mode' of '2' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+          "Sub field 'time' of '2' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
+          "Sub field 'active' of '3' of 'timers' is mandatory and must be a boolean value.",
+          "Sub field 'mode' of '3' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+          "Sub field 'time' of '3' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
+          "Sub field 'active' of '4' of 'timers' is mandatory and must be a boolean value.",
+          "Sub field 'mode' of '4' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+          "Sub field 'time' of '4' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'",
+          "Sub field 'active' of '5' of 'timers' is mandatory and must be a boolean value.",
+          "Sub field 'mode' of '5' of 'timers' is mandatory and must contain a string of one of this arrays entries: [${modeArray}]",
+          "Sub field 'time' of '5' of 'timers' is mandatory and must contain a string encoding a time value in 'hh:mm'"
+        ]
+      },
+      "SettingsFilterErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'filter' is mandatory.",
+          "Sub field 'maxRunTime' of 'filter' is mandatory and must be an integer between 90 and 270 with a step size of 10.",
+          "Sub field 'reset' of 'filter' is mandatory and must be a boolean representing the command to perform a filter reset or not."
+        ]
+      },
+      "SettingsThresholdsErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'thresholds' is mandatory.",
+          "Sub field 'co2' of 'thresholds' is mandatory and must be an integer between 100 and 5000 with a step size of 10.",
+          "Sub field 'humidity' of 'thresholds' is mandatory and must be an integer between 10 and 95."
+        ]
+      },
+      "SettingsSleepTimeErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'sleepTime' is mandatory and must be an integer between 10 and 250"
+        ]
+      },
+      "SettingsDeviceTimeErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'deviceTime' is mandatory.",
+          "Sub field 'autoSynch' of 'deviceTime' is mandatory and must be a boolean value.",
+          "Sub field 'date' of 'deviceTime' is mandatory and must be a ISO8601 compliant string: 'yyyy-mm-dd'.",
+          "Sub field 'time' of 'deviceTime' is mandatory and must contain a string encoding a time value in 'hh:mm'"
+        ]
+      },
+      "SettingsSummerModeErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'summermode' is mandatory and must be a booelan value."
+        ]
+      },
+      "SetupSystemsErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'systems' is mandatory.",
+          "Sub field '1' of 'systems' is mandatory.",
+          "Sub field '2' of 'systems' is mandatory.",
+          "Sub field '3' of 'systems' is mandatory.",
+          "Sub field '4' of 'systems' is mandatory.",
+          "Sub field '5' of 'systems' is mandatory.",
+          "Sub field '6' of 'systems' is mandatory.",
+          "Sub field 'type' of '1' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+          "Sub field 'type' of '2' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+          "Sub field 'type' of '3' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+          "Sub field 'type' of '4' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+          "Sub field 'type' of '5' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+          "Sub field 'type' of '6' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${systemsArray}]",
+          "Sub field 'installed' of '1' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+          "Sub field 'installed' of '2' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+          "Sub field 'installed' of '3' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+          "Sub field 'installed' of '4' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+          "Sub field 'installed' of '5' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]",
+          "Sub field 'installed' of '6' of 'systems' is mandatory and must contain a string of one of this arrays entries: [${areasArray}]"
+        ]
+      },
+      "SetupAreasBoostsErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'areas' is mandatory.",
+          "Sub field '1' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+          "Sub field '2' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+          "Sub field '3' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+          "Sub field '4' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+          "Sub field '5' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]",
+          "Sub field '6' of 'areas' is mandatory and must contain a string of one of this arrays entries: [${boostModesArray}]"
+        ]
+      },
+      "SetupDigitalInputErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'digitalInput' is mandatory.",
+          "Sub field 'function' of 'digitalInput' is mandatory and must contain a string of one of this arrays entries: [${diFunctionsArray}]",
+          "Sub field 'areas' of 'digitalInput' is mandatory.",
+          "Sub field '1' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '2' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '3' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '4' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '5' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '6' of 'areas' is mandatory and must contain a boolean value."
+        ]
+      },
+      "SetupAnalogInputErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'analogInput' is mandatory.",
+          "Sub field 'function' of 'digitaanalogInputlInput' is mandatory and must contain a string of one of this arrays entries: [${aiFunctionsArray}]",
+          "Sub field 'function' of 'analogInput' is mandatory and must contain a string of one of this arrays entries: [${aiFunctionsArray}]",
+          "Sub field 'areas' of 'analogInput' is mandatory.",
+          "Sub field '1' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '2' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '3' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '4' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '5' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '6' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field 'curveParameters' of 'analogInput' is mandatory.",
+          "Sub field 'x' of 'curveParameters' is mandatory.",
+          "Sub field 'yFanlevel' of 'curveParameters' is mandatory.",
+          "Sub field 'yHumidity' of 'curveParameters' is mandatory.",
+          "Sub field 'yCO2' of 'curveParameters' is mandatory.",
+          "Sub field 'yTemp' of 'curveParameters' is mandatory.",
+          "Sub field '1' of 'x' is mandatory and must contain an integer between 0 and 50.",
+          "Sub field '2' of 'x' is mandatory and must contain an integer between 50 and 100.",
+          "Sub field '1' of 'yFanlevel' is mandatory and must contain an integer between 0 and 3.",
+          "Sub field '2' of 'yFanlevel' is mandatory and must contain an integer between 3 and 6.",
+          "Sub field '1' of 'yHumidity' is mandatory and must contain an integer between 0 and 50.",
+          "Sub field '2' of 'yHumidity' is mandatory and must contain an integer between 50 and 100.",
+          "Sub field '1' of 'yCO2' is mandatory and must contain an integer between 0 and 1500 with a step size of 10.",
+          "Sub field '2' of 'yCO2' is mandatory and must contain an integer between 1500 and 5000 with a step size of 10.",
+          "Sub field '1' of 'yTemp' is mandatory and must contain an integer between -50 and 0.",
+          "Sub field '2' of 'yTemp' is mandatory and must contain an integer between 0 and 50."
+        ]
+      },
+      "SetupDigitalOutputErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'digitalOuput' is mandatory.",
+          "Sub field 'function' of 'digitalOuput' is mandatory and must contain a string of one of this arrays entries: [${doFunctionsArray}]",
+          "Sub field 'areas' of 'digitalOuput' is mandatory.",
+          "Sub field '1' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '2' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '3' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '4' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '5' of 'areas' is mandatory and must contain a boolean value.",
+          "Sub field '6' of 'areas' is mandatory and must contain a boolean value."
+        ]
+      },
+      "SetupFactoryResetErrors": {
+        "type": "string",
+        "enum": [
+          "Field 'nonce' is mandatory and must be 'I REALLY know what I do!'."
+        ]
       }
     }
   }

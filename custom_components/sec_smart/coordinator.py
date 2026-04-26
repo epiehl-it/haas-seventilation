@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import logging
 from datetime import timedelta
-from typing import Any, Dict
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .api import SecSmartApi, SecSmartAuthError, SecSmartBadRequest
+from .models import Areas
 
 
-class SecSmartCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
+class SecSmartCoordinator(DataUpdateCoordinator[Areas]):
     def __init__(
         self,
         hass: HomeAssistant,
@@ -27,7 +27,7 @@ class SecSmartCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
             update_interval=update_interval,
         )
 
-    async def _async_update_data(self) -> Dict[str, Any]:
+    async def _async_update_data(self) -> Areas:
         try:
             data = await self.api.async_get_areas(self.device_id)
         except SecSmartAuthError as err:

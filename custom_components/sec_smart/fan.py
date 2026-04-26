@@ -70,7 +70,10 @@ async def async_setup_platform(
 class SecSmartAreaFan(CoordinatorEntity, FanEntity):
     _attr_should_poll = False
     _attr_supported_features = (
-        FanEntityFeature.SET_SPEED | FanEntityFeature.PRESET_MODE
+        FanEntityFeature.SET_SPEED
+        | FanEntityFeature.PRESET_MODE
+        | FanEntityFeature.TURN_ON
+        | FanEntityFeature.TURN_OFF
     )
     _attr_preset_modes = SUPPORTED_PRESETS
     _attr_speed_count = 6  # show 6 feste Stufen statt fein abgestufter Prozentwerte
@@ -158,8 +161,10 @@ class SecSmartAreaFan(CoordinatorEntity, FanEntity):
         return attrs
 
     async def async_set_percentage(self, percentage: int) -> None:
-        # Map to nearest manual stage.
         level = _percentage_to_level(percentage)
+        if level == 0:
+            await self._set_mode("Fans off")
+            return
         await self._set_mode(f"Manual {level}")
 
     async def async_set_preset_mode(self, preset_mode: str) -> None:
