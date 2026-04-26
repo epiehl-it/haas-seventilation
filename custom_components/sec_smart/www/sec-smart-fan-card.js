@@ -2,12 +2,13 @@ const Base = window.LitElement || Object.getPrototypeOf(customElements.get("ha-p
 const html = Base.prototype.html;
 const css = Base.prototype.css;
 
+const STAGE_PERCENTAGES = { 1: 16, 2: 33, 3: 50, 4: 67, 5: 83, 6: 100 };
+
 class SecSmartFanCard extends Base {
   static get properties() {
     return {
       hass: {},
       _config: {},
-      _lastManualPct: { state: true },
     };
   }
 
@@ -16,7 +17,6 @@ class SecSmartFanCard extends Base {
       throw new Error("Bitte 'entity' setzen (fan.*)");
     }
     this._config = config;
-    this._lastManualPct = 50;
   }
 
   get _stateObj() {
@@ -32,40 +32,53 @@ class SecSmartFanCard extends Base {
     const percentage = stateObj.attributes.percentage ?? 0;
     const preset = stateObj.attributes.preset_mode || "";
     const isBoost = preset === "boost";
-    const level = this._levelFromPercentage(percentage);
+    const stage = isBoost ? null : this._stageFromPercentage(percentage);
+    const title = this._config.name
+      || stateObj.attributes.friendly_name
+      || stateObj.entity_id;
+    const status = isBoost
+      ? "Boost aktiv"
+      : stage === 0
+        ? "Aus"
+        : `Stufe ${stage}`;
+    const statusClass = isBoost ? "boost" : stage === 0 ? "off" : "on";
 
     return html`
       <ha-card>
         <div class="header">
-          <div>
-            <div class="title">${this._config.name || stateObj.attributes.friendly_name || stateObj.entity_id}</div>
-            <div class="subtitle">Modus: ${preset || "manual"} • Stufe ${level}</div>
-          </div>
-          <div class="chips">
-            <span class="chip">${percentage}%</span>
-            ${isBoost ? html`<span class="chip boost">Boost</span>` : ""}
-          </div>
+          <div class="title">${title}</div>
+          <div class="status ${statusClass}">${status}</div>
         </div>
-        <div class="slider-row">
-          <span>Stufe</span>
-          <input type="range" min="1" max="6" step="1" .value=${level} @input=${(e) => this._setLevel(Number(e.target.value))} />
-          <span class="slider-val">${level}</span>
+        <div class="stages">
+          ${[0, 1, 2, 3, 4, 5, 6].map((s) => this._stageButton(s, stage))}
         </div>
-        <div class="actions">
-          <button class="action" @click=${() => this._toggleBoost(isBoost)}>Boost ${isBoost ? "aus" : "an"}</button>
-          <button class="action" @click=${() => this._setPreset("schedule")}>Zeitprogramm</button>
-          <button class="action" @click=${() => this._setPreset("sleep")}>Sleep</button>
-          <button class="action" @click=${() => this._setPreset("humidity")}>Feuchte</button>
-          <button class="action" @click=${() => this._setPreset("co2")}>CO₂</button>
-          <button class="action" @click=${() => this._turnOff()}>Aus</button>
-        </div>
+        <button
+          class="boost ${isBoost ? "active" : ""}"
+          @click=${() => this._toggleBoost(isBoost)}
+        >
+          <ha-icon icon="mdi:weather-windy"></ha-icon>
+          <span>Boost lüften${isBoost ? " (aktiv)" : ""}</span>
+        </button>
       </ha-card>
     `;
   }
 
-  async _setLevel(level) {
-    const pct = this._pctForLevel(level);
-    this._lastManualPct = pct;
+  _stageButton(s, current) {
+    const active = s === current;
+    const classes = ["stage"];
+    if (active) classes.push("active");
+    if (s === 0) classes.push("off");
+    return html`
+      <button
+        class=${classes.join(" ")}
+        @click=${() => this._setStage(s)}
+        aria-label="Stufe ${s}"
+      >${s}</button>
+    `;
+  }
+
+  async _setStage(stage) {
+    const pct = stage === 0 ? 0 : STAGE_PERCENTAGES[stage];
     await this.hass.callService("fan", "set_percentage", {
       entity_id: this._config.entity,
       percentage: pct,
@@ -74,42 +87,26 @@ class SecSmartFanCard extends Base {
 
   async _toggleBoost(isBoost) {
     if (isBoost) {
-      await this._setLevel(this._levelFromPercentage(this._lastManualPct || 50));
+      await this._setStage(0);
       return;
     }
-    await this._setPreset("boost");
-  }
-
-  async _setPreset(preset) {
     await this.hass.callService("fan", "set_preset_mode", {
       entity_id: this._config.entity,
-      preset_mode: preset,
+      preset_mode: "boost",
     });
   }
 
-  async _turnOff() {
-    await this.hass.callService("fan", "turn_off", {
-      entity_id: this._config.entity,
-    });
-  }
-
-  _pctForLevel(level) {
-    const map = {1:16,2:33,3:50,4:67,5:83,6:100};
-    return map[level] || 0;
-  }
-
-  _levelFromPercentage(pct) {
+  _stageFromPercentage(pct) {
     if (pct <= 0) return 0;
-    const entries = [16,33,50,67,83,100];
     let best = 1;
     let diff = 200;
-    entries.forEach((val, idx) => {
+    for (const [stage, val] of Object.entries(STAGE_PERCENTAGES)) {
       const d = Math.abs(val - pct);
       if (d < diff) {
         diff = d;
-        best = idx + 1;
+        best = Number(stage);
       }
-    });
+    }
     return best;
   }
 
@@ -124,68 +121,99 @@ class SecSmartFanCard extends Base {
   static get styles() {
     return css`
       ha-card {
-        padding: 12px;
+        padding: 16px;
       }
       .header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: baseline;
         gap: 12px;
+        margin-bottom: 16px;
       }
       .title {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 600;
+        color: var(--primary-text-color);
       }
-      .subtitle {
-        font-size: 12px;
+      .status {
+        font-size: 13px;
+        font-weight: 500;
+        padding: 3px 10px;
+        border-radius: 999px;
+        background: var(--secondary-background-color);
         color: var(--secondary-text-color);
       }
-      .chips {
-        display: flex;
-        gap: 6px;
+      .status.on {
+        background: rgba(var(--rgb-primary-color, 33, 150, 243), 0.15);
+        color: var(--primary-color);
       }
-      .chip {
-        background: var(--chip-background-color, var(--primary-background-color));
-        border: 1px solid var(--divider-color);
-        border-radius: 10px;
-        padding: 4px 8px;
-        font-size: 12px;
-      }
-      .chip.boost {
+      .status.boost {
         background: var(--accent-color);
         color: var(--text-primary-color, #fff);
       }
-      .slider-row {
-        margin-top: 12px;
+      .stages {
         display: grid;
-        grid-template-columns: auto 1fr auto;
-        align-items: center;
-        gap: 10px;
-      }
-      .slider-row input[type="range"] {
-        width: 100%;
-      }
-      .slider-val {
-        min-width: 24px;
-        text-align: right;
-      }
-      .actions {
-        margin-top: 12px;
-        display: flex;
-        flex-wrap: wrap;
+        grid-template-columns: repeat(7, 1fr);
         gap: 6px;
+        margin-bottom: 14px;
       }
-      button.action {
-        border-radius: 10px;
+      button.stage {
+        aspect-ratio: 1 / 1;
+        border-radius: 12px;
         border: 1px solid var(--divider-color);
-        padding: 8px 12px;
         background: var(--card-background-color);
-        color: inherit;
+        color: var(--primary-text-color);
+        font-size: 17px;
+        font-weight: 600;
         cursor: pointer;
+        font-family: inherit;
+        transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
       }
-      button.action:hover {
-        border-color: var(--accent-color);
+      button.stage:hover {
+        background: var(--secondary-background-color);
+      }
+      button.stage:active {
+        transform: scale(0.96);
+      }
+      button.stage.active {
+        background: var(--primary-color);
+        color: var(--text-primary-color, #fff);
+        border-color: var(--primary-color);
+      }
+      button.stage.off.active {
+        background: var(--state-inactive-color, var(--disabled-color, #888));
+        border-color: var(--state-inactive-color, var(--disabled-color, #888));
+        color: var(--text-primary-color, #fff);
+      }
+      button.boost {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--accent-color);
+        background: transparent;
         color: var(--accent-color);
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: inherit;
+        transition: background 0.15s ease, color 0.15s ease, transform 0.05s ease;
+      }
+      button.boost:hover {
+        background: rgba(var(--rgb-accent-color, 255, 145, 0), 0.08);
+      }
+      button.boost:active {
+        transform: scale(0.98);
+      }
+      button.boost.active {
+        background: var(--accent-color);
+        color: var(--text-primary-color, #fff);
+      }
+      button.boost ha-icon {
+        --mdc-icon-size: 20px;
       }
       .error {
         padding: 16px;
@@ -197,10 +225,9 @@ class SecSmartFanCard extends Base {
 
 customElements.define("sec-smart-fan-card", SecSmartFanCard);
 
-// alias for backwards compat naming
 window.customCards = window.customCards || [];
 window.customCards.push({
   type: "sec-smart-fan-card",
   name: "SEC Smart Fan Card",
-  description: "Stufen 1-6 und Boost/Preset Steuerung",
+  description: "Stufen 0\u20136 und Boost-L\u00fcftung f\u00fcr SEC Smart",
 });

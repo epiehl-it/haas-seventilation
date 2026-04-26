@@ -102,19 +102,10 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
 async def _ensure_card_installed(hass: HomeAssistant) -> None:
     """Kopiert die Custom Card ins www-Verzeichnis, damit /local/... funktioniert."""
-    # Kandidaten: mitgeliefert in custom_components/sec_smart/www, oder fallback repo-root/www (Dev)
-    candidates = [
-        Path(__file__).resolve().parent / "www" / "sec-smart-fan-card.js",
-        Path(__file__).resolve().parents[2] / "www" / "sec-smart-fan-card.js",
-        Path(__file__).resolve().parents[3] / "www" / "sec-smart-fan-card.js",
-    ]
-
-    existing = [p for p in candidates if p.exists()]
-    if not existing:
-        _LOGGER.warning("SEC Smart card source not found in candidates: %s", candidates)
+    src = Path(__file__).resolve().parent / "www" / "sec-smart-fan-card.js"
+    if not src.exists():
+        _LOGGER.warning("SEC Smart card source not found: %s", src)
         return
-    # Prefer the most recently updated file to support local dev overrides.
-    src = max(existing, key=lambda p: p.stat().st_mtime)
 
     dest_dir = Path(hass.config.config_dir).joinpath("www")
     dest_dir.mkdir(parents=True, exist_ok=True)
