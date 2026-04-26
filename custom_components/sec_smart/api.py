@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional
 
 import aiohttp
+
+if TYPE_CHECKING:
+    from .models import AreaMode, Areas
 
 
 class SecSmartApi:
@@ -25,10 +28,10 @@ class SecSmartApi:
                 return await resp.json()
             return await resp.text()
 
-    async def async_get_areas(self, device_id: str) -> Dict[str, Any]:
+    async def async_get_areas(self, device_id: str) -> Areas:
         return await self._request("GET", f"/devices/{device_id}/areas")
 
-    async def async_set_area_mode(self, device_id: str, area_id: int, mode: str) -> None:
+    async def async_set_area_mode(self, device_id: str, area_id: int, mode: AreaMode) -> None:
         payload = {"areaid": area_id, "mode": mode}
         await self._request("PUT", f"/devices/{device_id}/areas/mode", json=payload)
 
